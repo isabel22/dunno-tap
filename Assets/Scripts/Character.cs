@@ -19,6 +19,7 @@ public class Character : MonoBehaviour {
 		//Score = GameObject.FindWithTag("ScoreText").GetComponent<UnityEngine.UI.Text>();
 		Score = GameObject.Find("Score").GetComponent<Text>();
 		Debug.Log (Score.text);
+		Debug.Log (this.name);
 	}
 	
 	// Update is called once per frame
@@ -32,6 +33,7 @@ public class Character : MonoBehaviour {
 		Debug.Log (Global.score);
 		Debug.Log (value);
 		Debug.Log (Score.text);
+		Debug.Log (this.name);
 	}
 
 	public void UpdateTime(){
