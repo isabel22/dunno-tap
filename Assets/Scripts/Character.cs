@@ -16,10 +16,15 @@ public class Character : MonoBehaviour {
 	public void Start () {
 		value = 0;
 		time = 0;
-		//Score = GameObject.FindWithTag("ScoreText").GetComponent<UnityEngine.UI.Text>();
 		Score = GameObject.Find("Score").GetComponent<Text>();
-		Debug.Log (Score.text);
-		Debug.Log (this.name);
+
+		if (this.tag.Equals("addScore")) {
+			value = 15;
+		}
+		if (this.tag.Equals("substScore")) {
+			value = -17;
+		}
+
 	}
 	
 	// Update is called once per frame
@@ -30,10 +35,6 @@ public class Character : MonoBehaviour {
 	public void UpdateScore(){
 		Global.score = Global.score + this.value;
 		Score.text = "Score: " + Global.score.ToString();
-		Debug.Log (Global.score);
-		Debug.Log (value);
-		Debug.Log (Score.text);
-		Debug.Log (this.name);
 	}
 
 	public void UpdateTime(){
