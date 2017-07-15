@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class Character : MonoBehaviour {
 
-	public int value;
-	public int time;
+	int value;
+	int time;
 
 //	private UnityEngine.UI.Text Score = GameObject.FindGameObjectWithTag ("ScoreText").GetComponent < UnityEngine.UI.Text> ();
 

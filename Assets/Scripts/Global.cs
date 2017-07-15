@@ -44,7 +44,6 @@ public class Global : MonoBehaviour {
 		boxup = arrayofboxes[boxNumber];
 		string boxupName = boxup.gameObject.name;
 		counter = 0;
-		Vector3 visibleScale = new Vector3 (4.5f, 4.5f, 4.5f);
 		Vector3 visiblePosition = new Vector3 (0.0f, 0.0f, -0.5f);
 
 		//0
@@ -61,10 +60,10 @@ public class Global : MonoBehaviour {
 		}
 
 		if (iconVisible == 0) {
-			addPointSelected.transform.localScale = visibleScale;
+			addPointSelected.transform.localScale = imageVisible;
 			addPointSelected.transform.localPosition = visiblePosition;
 		} else {
-			substPointSelected.transform.localScale = visibleScale;
+			substPointSelected.transform.localScale = imageVisible;
 			substPointSelected.transform.localPosition = visiblePosition;
 		}
 
