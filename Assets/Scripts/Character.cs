@@ -8,8 +8,6 @@ public class Character : MonoBehaviour {
 	int value;
 	int time;
 
-//	private UnityEngine.UI.Text Score = GameObject.FindGameObjectWithTag ("ScoreText").GetComponent < UnityEngine.UI.Text> ();
-
 	private UnityEngine.UI.Text Score;
 
 	// Use this for initialization

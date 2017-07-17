@@ -7,10 +7,14 @@ public class Global : MonoBehaviour {
 
 	public static int score;
 	public static int time;
+	public static int goal;
 	public static bool boxTaken;
 
 	public static int boxNumber;
 	public static GameObject boxup;
+
+	private UnityEngine.UI.Text timeLabel;
+
 
 	GameObject[] arrayofboxes;
 	Vector3 v0;
@@ -18,22 +22,27 @@ public class Global : MonoBehaviour {
 	GameObject addPointSelected;
 	GameObject substPointSelected;
 
-
 	// Use this for initialization
 	void Start () {
 		score = 0;
 		boxTaken = false; 
 		boxNumber = 0;
+		//Each level will start with the following time.
+		//TODO: make it start with 10 seconds and substract it second per second.
+		time = 0;
 		arrayofboxes = GameObject.FindGameObjectsWithTag("box");
 		v0 = Vector3.zero;
 		imageVisible = new Vector3(4.5f,4.5f,4.5f);
+		timeLabel = GameObject.Find("Time").GetComponent<Text>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (!boxTaken) {
+		if (!boxTaken && time > 0) {
 			StartCoroutine (takeRandomBox ());
 		}
+		time = (int)Time.time;
+		timeLabel.text = "Time: " + time.ToString ();
 	}
 
 	IEnumerator takeRandomBox()
