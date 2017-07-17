@@ -11,8 +11,6 @@ public class Global : MonoBehaviour {
 	public static int boxNumber;
 	public static GameObject boxup;
 
-
-	int counter;
 	GameObject[] arrayofboxes;
 	Vector3 v0;
 	Vector3 imageVisible;
@@ -43,7 +41,7 @@ public class Global : MonoBehaviour {
 		boxNumber = (int)Random.Range (0.0f, 9.0f);
 		boxup = arrayofboxes[boxNumber];
 		string boxupName = boxup.gameObject.name;
-		counter = 0;
+		float counter = 0f;
 		Vector3 visiblePosition = new Vector3 (0.0f, 0.0f, -0.5f);
 
 		//0
@@ -53,10 +51,10 @@ public class Global : MonoBehaviour {
 
 		int iconVisible = (int)Random.Range (0.4f, 1.4f);
 
-		while (counter < 45) {
+		while (counter < 13.5f) {
 			boxup.gameObject.transform.transform.Rotate (Vector3.up * counter);
 			yield return  new WaitForSeconds (0.00000005f);
-			counter++;
+			counter = counter + 0.5f;
 		}
 
 		if (iconVisible == 0) {
@@ -78,10 +76,10 @@ public class Global : MonoBehaviour {
 		}
 
 		counter = 0;
-		while (counter < 45) {
+		while (counter < 13.5f) {
 			boxup.gameObject.transform.transform.Rotate (Vector3.down * counter);
 			yield return  new WaitForSeconds (0.00000005f);
-			counter++;
+			counter = counter + 0.5f;
 		}
 
 		boxTaken = false;
