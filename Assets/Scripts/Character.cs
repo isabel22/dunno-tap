@@ -35,6 +35,7 @@ public class Character : MonoBehaviour {
 	public void UpdateScore(){
 		Global.score = Global.score + this.value;
 		Score.text = "Score: " + Global.score.ToString();
+		this.gameObject.GetComponent<Button>().interactable = false;
 	}
 
 	public void UpdateTime(){

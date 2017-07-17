@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Global : MonoBehaviour {
 
@@ -60,9 +61,11 @@ public class Global : MonoBehaviour {
 		if (iconVisible == 0) {
 			addPointSelected.transform.localScale = imageVisible;
 			addPointSelected.transform.localPosition = visiblePosition;
+			substPointSelected.gameObject.GetComponent<Button> ().interactable = false;
 		} else {
 			substPointSelected.transform.localScale = imageVisible;
 			substPointSelected.transform.localPosition = visiblePosition;
+			addPointSelected.gameObject.GetComponent<Button> ().interactable = false;
 		}
 
 		yield return  new WaitForSeconds (0.5f);
@@ -81,7 +84,8 @@ public class Global : MonoBehaviour {
 			yield return  new WaitForSeconds (0.00000005f);
 			counter = counter + 0.5f;
 		}
-
+		addPointSelected.gameObject.GetComponent<Button> ().interactable = true;
+		substPointSelected.gameObject.GetComponent<Button> ().interactable = true;
 		boxTaken = false;
 	}
 }
