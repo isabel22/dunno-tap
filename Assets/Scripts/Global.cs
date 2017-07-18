@@ -8,13 +8,18 @@ public class Global : MonoBehaviour {
 	public static int score;
 	public static int time;
 	public static int goal;
+	public static int level;
 	public static bool boxTaken;
 
 	public static int boxNumber;
 	public static GameObject boxup;
 
 	private UnityEngine.UI.Text timeLabel;
+	private UnityEngine.UI.Text goalLabel;
+	private UnityEngine.UI.Text levelLabel;
+	private UnityEngine.UI.Text gameOver;
 
+	private static int initialTime;
 
 	GameObject[] arrayofboxes;
 	Vector3 v0;
@@ -27,13 +32,20 @@ public class Global : MonoBehaviour {
 		score = 0;
 		boxTaken = false; 
 		boxNumber = 0;
-		//Each level will start with the following time.
-		//TODO: make it start with 10 seconds and substract it second per second.
-		time = 0;
+		initialTime = 10;
+		time = initialTime;
+		level = 1;
+		goal = 50;
 		arrayofboxes = GameObject.FindGameObjectsWithTag("box");
 		v0 = Vector3.zero;
 		imageVisible = new Vector3(4.5f,4.5f,4.5f);
 		timeLabel = GameObject.Find("Time").GetComponent<Text>();
+		goalLabel = GameObject.Find("Goal").GetComponent<Text>();
+		levelLabel = GameObject.Find("Level").GetComponent<Text>();
+		gameOver = GameObject.Find("GameOver").GetComponent<Text>();
+		gameOver.transform.localScale = Vector3.zero;
+		levelLabel.text = "Level: " + level;
+		goalLabel.text = "Goal: " + goal;
 	}
 	
 	// Update is called once per frame
@@ -41,8 +53,39 @@ public class Global : MonoBehaviour {
 		if (!boxTaken && time > 0) {
 			StartCoroutine (takeRandomBox ());
 		}
-		time = (int)Time.time;
-		timeLabel.text = "Time: " + time.ToString ();
+
+		if (time > 0) {
+			//TODO: Time.time needs to be changed for levels 2...N
+			time = initialTime - (int)Time.time;
+			timeLabel.text = "Time: " + time.ToString ();
+		} 
+
+		//Check if we can level up or game over
+		if (score >= goal && time == 0) {
+			changeLevel ();
+		}
+
+		if (time == 0 && score < goal) {
+			//GameOver
+			gameOver.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+		}
+	}
+
+	void changeLevel() {
+		//Reset time
+
+		//TODO: Fix the initial time when the level is changed.
+		time = 10;
+		Debug.Log(Time.timeSinceLevelLoad);
+		//Calculate next goal;
+		goal = (int) (goal + goal*0.5);
+		goalLabel.text = "Goal: " + goal;
+
+		//uplevel
+		level++;
+		levelLabel.text = "Level: " + level;
+
+		//TODO: difficulty upgrade with less time between box changes and the time visible for the image.
 	}
 
 	IEnumerator takeRandomBox()
