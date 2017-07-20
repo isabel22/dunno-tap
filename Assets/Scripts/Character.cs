@@ -6,14 +6,12 @@ using UnityEngine.UI;
 public class Character : MonoBehaviour {
 
 	int value;
-	int time;
 
 	private UnityEngine.UI.Text Score;
 
 	// Use this for initialization
 	public void Start () {
 		value = 0;
-		time = 0;
 		Score = GameObject.Find("Score").GetComponent<Text>();
 
 		if (this.tag.Equals("addScore")) {
