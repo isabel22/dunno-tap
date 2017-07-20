@@ -2,50 +2,48 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Global : MonoBehaviour {
 
+	private static int initialTime = 10;
 	public static int score;
-	public static int time;
-	public static int goal;
-	public static int level;
-	public static bool boxTaken;
+	private static int time = initialTime;
+	private static int goal = 40;
+	private static int level = 1;
+	private static bool boxTaken = false;
 
-	public static int boxNumber;
-	public static GameObject boxup;
+	private static int boxNumber = 0;
+	private static GameObject boxup;
 
 	private UnityEngine.UI.Text timeLabel;
 	private UnityEngine.UI.Text goalLabel;
 	private UnityEngine.UI.Text levelLabel;
+	private UnityEngine.UI.Text scoreLabel;
 	private UnityEngine.UI.Text gameOver;
+	private UnityEngine.UI.Button restart;
 
-	private static int initialTime;
-
-	GameObject[] arrayofboxes;
-	Vector3 v0;
-	Vector3 imageVisible;
+	private static GameObject[] arrayofboxes;
+	private static Vector3 v0 = Vector3.zero;
+	private static Vector3 imageVisible = new Vector3(4.5f,4.5f,4.5f);
 	GameObject addPointSelected;
 	GameObject substPointSelected;
 
 	// Use this for initialization
 	void Start () {
-		score = 0;
-		boxTaken = false; 
-		boxNumber = 0;
-		initialTime = 10;
-		time = initialTime;
-		level = 1;
-		goal = 50;
-		arrayofboxes = GameObject.FindGameObjectsWithTag("box");
-		v0 = Vector3.zero;
-		imageVisible = new Vector3(4.5f,4.5f,4.5f);
+
 		timeLabel = GameObject.Find("Time").GetComponent<Text>();
 		goalLabel = GameObject.Find("Goal").GetComponent<Text>();
 		levelLabel = GameObject.Find("Level").GetComponent<Text>();
 		gameOver = GameObject.Find("GameOver").GetComponent<Text>();
-		gameOver.transform.localScale = Vector3.zero;
+		restart = GameObject.Find ("Restart").GetComponent<Button> ();
+		scoreLabel = GameObject.Find("Score").GetComponent<Text>();
+
 		levelLabel.text = "Level: " + level;
 		goalLabel.text = "Goal: " + goal;
+		gameOver.transform.localScale = Vector3.zero;
+		restart.transform.localScale = Vector3.zero;
+		arrayofboxes = GameObject.FindGameObjectsWithTag("box");
 	}
 	
 	// Update is called once per frame
@@ -55,8 +53,8 @@ public class Global : MonoBehaviour {
 		}
 
 		if (time > 0) {
-			//TODO: Time.time needs to be changed for levels 2...N
-			time = initialTime - (int)Time.time;
+			//TODO: time needs to be changed for levels 2...N
+			time = initialTime - (int)Time.timeSinceLevelLoad;
 			timeLabel.text = "Time: " + time.ToString ();
 		} 
 
@@ -68,24 +66,8 @@ public class Global : MonoBehaviour {
 		if (time == 0 && score < goal) {
 			//GameOver
 			gameOver.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+			restart.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
 		}
-	}
-
-	void changeLevel() {
-		//Reset time
-
-		//TODO: Fix the initial time when the level is changed.
-		time = 10;
-		Debug.Log(Time.timeSinceLevelLoad);
-		//Calculate next goal;
-		goal = (int) (goal + goal*0.5);
-		goalLabel.text = "Goal: " + goal;
-
-		//uplevel
-		level++;
-		levelLabel.text = "Level: " + level;
-
-		//TODO: difficulty upgrade with less time between box changes and the time visible for the image.
 	}
 
 	IEnumerator takeRandomBox()
@@ -139,5 +121,48 @@ public class Global : MonoBehaviour {
 		addPointSelected.gameObject.GetComponent<Button> ().interactable = true;
 		substPointSelected.gameObject.GetComponent<Button> ().interactable = true;
 		boxTaken = false;
+	}
+
+	public void restartScene(){
+		goal = 40;
+		level = 1;
+		score = 0;
+		Scene scene = SceneManager.GetActiveScene(); 
+		SceneManager.LoadScene(scene.name);
+		//SceneManager.SetActiveScene (scene);
+
+		gameOver.transform.localScale = v0;
+		restart.transform.localScale = v0;
+
+		scoreLabel.text = "Score: " + score;
+	}
+
+	void changeLevel() {
+		//Reset time
+		Scene scene = SceneManager.GetActiveScene(); 
+		SceneManager.LoadScene(scene.name);
+		time = initialTime;
+//		Debug.Log (score + "Level: " +level);
+		//SceneManager.SetActiveScene (scene);
+
+		//Calculate next goal;
+		goal = (int) (goal + goal*0.5);
+		goalLabel.text = "Goal: " + goal;
+
+		//uplevel
+		level++;
+		levelLabel.text = "Level: " + level;
+
+		//score continues adding up...
+		scoreLabel.text = "Score: " + score.ToString();
+//		Debug.Log (score + "Level: " +level + " Label" + scoreLabel.text);
+
+		//TODO: difficulty upgrade with less time between box changes and the time visible for the image.
+	}
+
+	protected void Awake(){
+		time = initialTime;
+		boxTaken = false;
+		boxNumber = 0;
 	}
 }
