@@ -41,28 +41,24 @@ public class Global : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+
+		if (time == 0 && score < goal) {
+			//GameOver
+			gameOver.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+			restart.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+		}
+
 		scoreLabel.text = "Score: " + score.ToString();
 		if (!boxTaken && time > 1) {
 			StartCoroutine (takeRandomBox ());
 		}
 		if (time > 0) {
-			//TODO: time needs to be changed for levels 2...N
 			time = initialTime - (int)Time.timeSinceLevelLoad;
 			timeLabel.text = "Time: " + time.ToString ();
 		} 
 		//Check if we can level up or game over
 		if (score >= goal && time == 0) {
 			changeLevel ();
-		}
-			
-		if (time == 0 && score < goal) {
-			//GameOver
-			gameOver.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-			restart.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-			Debug.Log (time);
-			Debug.Log (score);
-			Debug.Log (goal);
 		}
 	}
 
