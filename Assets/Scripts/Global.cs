@@ -45,12 +45,12 @@ public class Global : MonoBehaviour {
 
 		if (time == 0 && score < goal) {
 			//GameOver
-			gameOver.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-			restart.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+			gameOver.transform.localScale = new Vector3(2.0f, 2.0f, 2.0f);
+			restart.transform.localScale = new Vector3(2.0f, 2.0f, 2.0f);
 		}
 
 		scoreLabel.text = "Score: " + score.ToString();
-		if (!boxTaken && time > 1) {
+		if (!boxTaken && time > 0) {
 			StartCoroutine (takeRandomBox ());
 		}
 		if (time > 0) {
@@ -93,7 +93,7 @@ public class Global : MonoBehaviour {
 		while (counter < 13.5f) {
 			boxup.gameObject.transform.transform.Rotate (Vector3.up * counter);
 			yield return  new WaitForSeconds (rotatingTime);
-			counter = counter + 0.5f;
+			counter = counter + 1f;
 		}
 
 		if (iconVisible == 0) {
@@ -120,7 +120,7 @@ public class Global : MonoBehaviour {
 		while (counter < 13.5f) {
 			boxup.gameObject.transform.transform.Rotate (Vector3.down * counter);
 			yield return  new WaitForSeconds (rotatingTime);
-			counter = counter + 0.5f;
+			counter = counter + 1f;
 		}
 		addPointSelected.gameObject.GetComponent<Button> ().interactable = true;
 		substPointSelected.gameObject.GetComponent<Button> ().interactable = true;
