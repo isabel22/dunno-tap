@@ -13,6 +13,7 @@ public class Global : MonoBehaviour {
 	private static int goal = 40;
 	private static int level = 1;
 	private static bool boxTaken = false;
+	private static float rotatingTime = 0.000000001f;
 
 	private static UnityEngine.UI.Text timeLabel;
 	private static UnityEngine.UI.Text goalLabel;
@@ -91,7 +92,7 @@ public class Global : MonoBehaviour {
 
 		while (counter < 13.5f) {
 			boxup.gameObject.transform.transform.Rotate (Vector3.up * counter);
-			yield return  new WaitForSeconds (0.00000005f);
+			yield return  new WaitForSeconds (rotatingTime);
 			counter = counter + 0.5f;
 		}
 
@@ -118,7 +119,7 @@ public class Global : MonoBehaviour {
 		counter = 0;
 		while (counter < 13.5f) {
 			boxup.gameObject.transform.transform.Rotate (Vector3.down * counter);
-			yield return  new WaitForSeconds (0.00000005f);
+			yield return  new WaitForSeconds (rotatingTime);
 			counter = counter + 0.5f;
 		}
 		addPointSelected.gameObject.GetComponent<Button> ().interactable = true;
@@ -130,6 +131,7 @@ public class Global : MonoBehaviour {
 		goal = 40;
 		level = 1;
 		score = 0;
+		rotatingTime = 0.000000001f;
 		Scene scene = SceneManager.GetActiveScene(); 
 		SceneManager.LoadScene(scene.name);
 		//SceneManager.SetActiveScene (scene);
@@ -141,7 +143,7 @@ public class Global : MonoBehaviour {
 	void changeLevel() {
 		//Reset time
 		time = initialTime;
-
+		rotatingTime = rotatingTime / 100;
 		//Calculate next goal;
 		goal = (int) (goal + goal*0.5);
 		goalLabel.text = "Goal: " + goal;
