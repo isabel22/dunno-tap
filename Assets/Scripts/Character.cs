@@ -7,12 +7,12 @@ public class Character : MonoBehaviour {
 
 	int value;
 
-	private UnityEngine.UI.Text Score;
+//	private UnityEngine.UI.Text Score;
 
 	// Use this for initialization
 	public void Start () {
 		value = 0;
-		Score = GameObject.Find("Score").GetComponent<Text>();
+//		Score = GameObject.Find("Score").GetComponent<Text>();
 
 		if (this.tag.Equals("addScore")) {
 			value = 15;
@@ -30,7 +30,7 @@ public class Character : MonoBehaviour {
 
 	public void UpdateScore(){
 		Global.score = Global.score + this.value;
-		Score.text = "Score: " + Global.score.ToString();
+//		Score.text = "Score: " + Global.score.ToString();
 		this.gameObject.GetComponent<Button>().interactable = false;
 	}
 }
