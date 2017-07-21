@@ -13,7 +13,7 @@ public class Global : MonoBehaviour {
 	private static int goal = 40;
 	private static int level = 1;
 	private static bool boxTaken = false;
-	private static float rotatingTime = 0.000000001f;
+	private static float rotatingTime = 0.000000005f;
 
 	private static UnityEngine.UI.Text timeLabel;
 	private static UnityEngine.UI.Text goalLabel;
@@ -27,7 +27,7 @@ public class Global : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
+		Screen.orientation = ScreenOrientation.LandscapeLeft;
 		timeLabel = GameObject.Find("Time").GetComponent<Text>();
 		goalLabel = GameObject.Find("Goal").GetComponent<Text>();
 		levelLabel = GameObject.Find("Level").GetComponent<Text>();
@@ -131,7 +131,7 @@ public class Global : MonoBehaviour {
 		goal = 40;
 		level = 1;
 		score = 0;
-		rotatingTime = 0.000000001f;
+		rotatingTime = 0.000000005f;
 		Scene scene = SceneManager.GetActiveScene(); 
 		SceneManager.LoadScene(scene.name);
 		//SceneManager.SetActiveScene (scene);
