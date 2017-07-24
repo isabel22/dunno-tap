@@ -45,8 +45,7 @@ public class Global : MonoBehaviour {
 
 		if (time == 0 && score < goal) {
 			//GameOver
-			gameOver.transform.localScale = new Vector3(2.0f, 2.0f, 2.0f);
-			restart.transform.localScale = new Vector3(2.0f, 2.0f, 2.0f);
+			showGameOverObjects();
 		}
 
 		scoreLabel.text = "Score: " + score.ToString();
@@ -68,6 +67,12 @@ public class Global : MonoBehaviour {
 		restart.transform.localScale = v0;
 	}
 
+	void showGameOverObjects() {
+		Vector3 newPosition = new Vector3(2.0f, 2.0f, 2.0f);
+		gameOver.transform.localScale = newPosition;
+		restart.transform.localScale = newPosition;
+	}
+
 	IEnumerator takeRandomBox()
 	{
 		boxTaken = true;
@@ -76,7 +81,6 @@ public class Global : MonoBehaviour {
 		GameObject boxup = arrayofboxes[boxNumber];
 		string boxupName = boxup.gameObject.name;
 		float counter = 0f;
-		Vector3 visiblePosition = new Vector3 (0.0f, 0.0f, -0.5f);
 
 		//0
 		GameObject addPointSelected = GameObject.Find ("goldie" + boxupName);
@@ -92,40 +96,27 @@ public class Global : MonoBehaviour {
 		}
 
 		if (iconVisible == 0) {
-			addPointSelected.transform.localScale = imageVisible;
-			addPointSelected.transform.localPosition = visiblePosition;
-			addPointSelected.gameObject.GetComponent<Button> ().interactable = true;
-			substPointSelected.gameObject.GetComponent<Button> ().interactable = false;
+			showButton (addPointSelected, substPointSelected);
 			addPointSelected.SendMessage ("updateValue", 15);
 		} else {
-			substPointSelected.transform.localScale = imageVisible;
-			substPointSelected.transform.localPosition = visiblePosition;
-			substPointSelected.gameObject.GetComponent<Button> ().interactable = true;
-			addPointSelected.gameObject.GetComponent<Button> ().interactable = false;
+			showButton (substPointSelected, addPointSelected);
 			substPointSelected.SendMessage ("updateValue", -17);
 		}
 
 		yield return  new WaitForSeconds (0.5f);
 
 		if (iconVisible == 0) {
-			addPointSelected.transform.localPosition = v0;
-			addPointSelected.transform.localScale = v0;
-			addPointSelected.gameObject.GetComponent<Button> ().interactable = false;
-			addPointSelected.SendMessage ("resetValue");
+			hideButton (addPointSelected);
 		} else {
-			substPointSelected.transform.localPosition = v0;
-			substPointSelected.transform.localScale = v0;
-			substPointSelected.gameObject.GetComponent<Button> ().interactable = false;
-			substPointSelected.SendMessage ("resetValue");
+			hideButton (substPointSelected);
 		}
 
-		counter = 0f;
+		counter = 0;
 		while (counter < 13.5f) {
 			boxup.gameObject.transform.transform.Rotate (Vector3.down * counter);
 			yield return  new WaitForSeconds (rotatingTime);
 			counter = counter + 1f;
 		}
-			
 		boxTaken = false;
 	}
 
@@ -160,5 +151,20 @@ public class Global : MonoBehaviour {
 	protected void Awake(){
 		time = initialTime;
 		boxTaken = false;
+	}
+
+	void showButton(GameObject shownButton, GameObject unshownButton) {
+		Vector3 visiblePosition = new Vector3 (0.0f, 0.0f, -0.5f);
+		shownButton.transform.localScale = imageVisible;
+		shownButton.transform.localPosition = visiblePosition;
+		shownButton.gameObject.GetComponent<Button> ().interactable = true;
+		unshownButton.gameObject.GetComponent<Button> ().interactable = false;
+	}
+
+	void hideButton(GameObject shownButton) {
+		shownButton.transform.localPosition = v0;
+		shownButton.transform.localScale = v0;
+		shownButton.gameObject.GetComponent<Button> ().interactable = false;
+		shownButton.SendMessage ("resetValue");
 	}
 }
