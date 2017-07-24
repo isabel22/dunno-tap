@@ -70,23 +70,18 @@ public class Global : MonoBehaviour {
 
 	IEnumerator takeRandomBox()
 	{
-		GameObject addPointSelected;
-		GameObject substPointSelected;
-		GameObject boxup;
-		GameObject[] arrayofboxes = GameObject.FindGameObjectsWithTag("box");
-		int boxNumber = 0;
-
 		boxTaken = true;
-		boxNumber = (int)Random.Range (0.0f, 9.0f);
-		boxup = arrayofboxes[boxNumber];
+		GameObject[] arrayofboxes = GameObject.FindGameObjectsWithTag("box");
+		int boxNumber = (int)Random.Range (0.0f, 9.0f);
+		GameObject boxup = arrayofboxes[boxNumber];
 		string boxupName = boxup.gameObject.name;
 		float counter = 0f;
 		Vector3 visiblePosition = new Vector3 (0.0f, 0.0f, -0.5f);
 
 		//0
-		addPointSelected = GameObject.Find ("goldie" + boxupName);
+		GameObject addPointSelected = GameObject.Find ("goldie" + boxupName);
 		//1
-		substPointSelected = GameObject.Find ("hammer" + boxupName);
+		GameObject substPointSelected = GameObject.Find ("hammer" + boxupName);
 
 		int iconVisible = (int)Random.Range (0.4f, 1.4f);
 
@@ -99,11 +94,15 @@ public class Global : MonoBehaviour {
 		if (iconVisible == 0) {
 			addPointSelected.transform.localScale = imageVisible;
 			addPointSelected.transform.localPosition = visiblePosition;
+			addPointSelected.gameObject.GetComponent<Button> ().interactable = true;
 			substPointSelected.gameObject.GetComponent<Button> ().interactable = false;
+			addPointSelected.SendMessage ("updateValue", 15);
 		} else {
 			substPointSelected.transform.localScale = imageVisible;
 			substPointSelected.transform.localPosition = visiblePosition;
+			substPointSelected.gameObject.GetComponent<Button> ().interactable = true;
 			addPointSelected.gameObject.GetComponent<Button> ().interactable = false;
+			substPointSelected.SendMessage ("updateValue", -17);
 		}
 
 		yield return  new WaitForSeconds (0.5f);
@@ -111,19 +110,22 @@ public class Global : MonoBehaviour {
 		if (iconVisible == 0) {
 			addPointSelected.transform.localPosition = v0;
 			addPointSelected.transform.localScale = v0;
+			addPointSelected.gameObject.GetComponent<Button> ().interactable = false;
+			addPointSelected.SendMessage ("resetValue");
 		} else {
 			substPointSelected.transform.localPosition = v0;
 			substPointSelected.transform.localScale = v0;
+			substPointSelected.gameObject.GetComponent<Button> ().interactable = false;
+			substPointSelected.SendMessage ("resetValue");
 		}
 
-		counter = 0;
+		counter = 0f;
 		while (counter < 13.5f) {
 			boxup.gameObject.transform.transform.Rotate (Vector3.down * counter);
 			yield return  new WaitForSeconds (rotatingTime);
 			counter = counter + 1f;
 		}
-		addPointSelected.gameObject.GetComponent<Button> ().interactable = true;
-		substPointSelected.gameObject.GetComponent<Button> ().interactable = true;
+			
 		boxTaken = false;
 	}
 
@@ -134,7 +136,6 @@ public class Global : MonoBehaviour {
 		rotatingTime = 0.000000005f;
 		Scene scene = SceneManager.GetActiveScene(); 
 		SceneManager.LoadScene(scene.name);
-		//SceneManager.SetActiveScene (scene);
 
 		hideGameOverObjects ();
 		scoreLabel.text = "Score: " + score;
