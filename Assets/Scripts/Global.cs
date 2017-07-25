@@ -55,6 +55,9 @@ public class Global : MonoBehaviour {
 		if (time > 0) {
 			time = initialTime - (int)Time.timeSinceLevelLoad;
 			timeLabel.text = "Time: " + time.ToString ();
+			if (time < 4) {
+				timeLabel.SendMessage ("ChangeColor");
+			}
 		} 
 		//Check if we can level up or game over
 		if (score >= goal && time == 0) {
