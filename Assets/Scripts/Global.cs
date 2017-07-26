@@ -146,6 +146,7 @@ public class Global : MonoBehaviour {
 		//uplevel
 		level++;
 		levelLabel.text = "Level: " + level;
+		levelLabel.SendMessage ("changeLevel");
 
 		Scene scene = SceneManager.GetActiveScene(); 
 		SceneManager.LoadScene(scene.name);

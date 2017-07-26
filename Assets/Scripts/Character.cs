@@ -18,7 +18,7 @@ public class Character : MonoBehaviour {
 	public void UpdateScore(){
 		Global.score = Global.score + this.value;
 		this.resetValue ();
-		scoreLabel.SendMessage("VariableChangeHandler", scoreLabel.text);
+		scoreLabel.SendMessage("VariableChangeHandler");
 	}
 
 	public void updateValue(int newValue) {
