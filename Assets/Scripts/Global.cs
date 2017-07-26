@@ -14,6 +14,7 @@ public class Global : MonoBehaviour {
 	private static int level = 1;
 	private static bool boxTaken = false;
 	private static float rotatingTime = 0.000000005f;
+	private static float waitBetweenBoxes = 0.5f;
 
 	private static UnityEngine.UI.Text timeLabel;
 	private static UnityEngine.UI.Text goalLabel;
@@ -34,7 +35,6 @@ public class Global : MonoBehaviour {
 		gameOver = GameObject.Find("GameOver").GetComponent<Text>();
 		restart = GameObject.Find ("Restart").GetComponent<Button> ();
 		scoreLabel = GameObject.Find("Score").GetComponent<Text>();
-
 		levelLabel.text = "Level: " + level;
 		goalLabel.text = "Goal: " + goal;
 		hideGameOverObjects ();
@@ -106,7 +106,7 @@ public class Global : MonoBehaviour {
 			substPointSelected.SendMessage ("updateValue", -17);
 		}
 
-		yield return  new WaitForSeconds (0.5f);
+		yield return  new WaitForSeconds (waitBetweenBoxes);
 
 		if (iconVisible == 0) {
 			hideButton (addPointSelected);
@@ -128,6 +128,7 @@ public class Global : MonoBehaviour {
 		level = 1;
 		score = 0;
 		rotatingTime = 0.000000005f;
+		waitBetweenBoxes = 0.5f;
 		Scene scene = SceneManager.GetActiveScene(); 
 		SceneManager.LoadScene(scene.name);
 
@@ -142,6 +143,8 @@ public class Global : MonoBehaviour {
 		//Calculate next goal;
 		goal = (int) (goal + goal*0.5);
 		goalLabel.text = "Goal: " + goal;
+
+		waitBetweenBoxes = waitBetweenBoxes - 0.02f;
 
 		//uplevel
 		level++;
