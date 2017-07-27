@@ -65,7 +65,7 @@ public class Global : MonoBehaviour {
 		}
 	}
 
-	void hideGameOverObjects() {
+	static void hideGameOverObjects() {
 		gameOver.transform.localScale = v0;
 		restart.transform.localScale = v0;
 	}
@@ -123,7 +123,7 @@ public class Global : MonoBehaviour {
 		boxTaken = false;
 	}
 
-	public void restartScene(){
+	public static void restartScene(){
 		goal = 40;
 		level = 1;
 		score = 0;
