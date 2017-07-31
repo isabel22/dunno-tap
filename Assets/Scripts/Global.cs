@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class Global : MonoBehaviour {
 
-	private static int initialTime = 10;
+	private static int initialTime = 13;
 
 	public static int score;
 	private static int time = initialTime;
@@ -15,6 +15,7 @@ public class Global : MonoBehaviour {
 	private static bool boxTaken = false;
 	private static float rotatingTime = 0.000000005f;
 	private static float waitBetweenBoxes = 0.5f;
+	private static bool blocked = false;
 
 	private static UnityEngine.UI.Text timeLabel;
 	private static UnityEngine.UI.Text goalLabel;
@@ -22,6 +23,7 @@ public class Global : MonoBehaviour {
 	private static UnityEngine.UI.Text scoreLabel;
 	private static UnityEngine.UI.Text gameOver;
 	private static UnityEngine.UI.Button restart;
+	private static UnityEngine.UI.Text label321;
 
 	private static Vector3 v0 = Vector3.zero;
 	private static Vector3 imageVisible = new Vector3(4.5f,4.5f,4.5f);
@@ -35,33 +37,60 @@ public class Global : MonoBehaviour {
 		gameOver = GameObject.Find("GameOver").GetComponent<Text>();
 		restart = GameObject.Find ("Restart").GetComponent<Button> ();
 		scoreLabel = GameObject.Find("Score").GetComponent<Text>();
+		label321 = GameObject.Find ("321_lbl").GetComponent<Text> ();
 		levelLabel.text = "Level: " + level;
 		goalLabel.text = "Goal: " + goal;
 		hideGameOverObjects ();
+		start321Go ();
 	}
-	
+
+	void start321Go () {
+		blocked = true;
+		label321.transform.localScale = new Vector3 (1.0f, 1.0f, 1.0f);
+		StartCoroutine (change321Go());
+	}
+
+	IEnumerator change321Go() {
+		int time = int.Parse(label321.text);
+		int init = time;
+		while (time > -1) {
+			time = init - (int)Time.timeSinceLevelLoad;
+			if (time > 0) {
+				label321.text = time.ToString ();
+				yield return  new WaitForSeconds (1);
+			} else {
+				label321.text = "Go";
+				label321.transform.localScale = new Vector3 (1.0f, 1.0f, 1.0f);
+				blocked = false;
+				yield return  new WaitForSeconds (0.5f);
+			}
+		}
+		label321.transform.localScale = v0;
+	}
+
 	// Update is called once per frame
 	void Update () {
-
-		if (time == 0 && score < goal) {
-			//GameOver
-			showGameOverObjects();
-		}
-
-		scoreLabel.text = "Score: " + score.ToString();
-		if (!boxTaken && time > 0) {
-			StartCoroutine (takeRandomBox ());
-		}
-		if (time > 0) {
-			time = initialTime - (int)Time.timeSinceLevelLoad;
-			timeLabel.text = "Time: " + time.ToString ();
-			if (time < 4) {
-				timeLabel.SendMessage ("ChangeColor");
+		if (blocked == false) {
+			if (time == 0 && score < goal) {
+				//GameOver
+				showGameOverObjects ();
 			}
-		} 
-		//Check if we can level up or game over
-		if (score >= goal && time == 0) {
-			changeLevel ();
+
+			scoreLabel.text = "Score: " + score.ToString ();
+			if (!boxTaken && time > 0) {
+				StartCoroutine (takeRandomBox ());
+			}
+			if (time > 0) {
+				time = initialTime - (int)Time.timeSinceLevelLoad;
+				timeLabel.text = "Time: " + time.ToString ();
+				if (time < 4) {
+					timeLabel.SendMessage ("ChangeColor");
+				}
+			} 
+			//Check if we can level up or game over
+			if (score >= goal && time == 0) {
+				changeLevel ();
+			}
 		}
 	}
 
