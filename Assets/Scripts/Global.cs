@@ -9,7 +9,7 @@ public class Global : MonoBehaviour {
 	private static int initialTime = 13;
 
 	public static int score;
-	private static int time = 10;
+	private static int time = 13;
 	private static int goal = 40;
 	private static int level = 1;
 	private static bool boxTaken = false;
@@ -69,7 +69,6 @@ public class Global : MonoBehaviour {
 			}
 		}
 		label321.transform.localScale = v0;
-		initialTime = 10;
 	}
 
 	// Update is called once per frame
