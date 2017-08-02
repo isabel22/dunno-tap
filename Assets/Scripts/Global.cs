@@ -65,7 +65,7 @@ public class Global : MonoBehaviour {
 				label321.text = "Go";
 				label321.transform.localScale = new Vector3 (1.0f, 1.0f, 1.0f);
 				blocked = false;
-				yield return  new WaitForSeconds (0.5f);
+				yield return  new WaitForSeconds (0.0005f);
 			}
 		}
 		label321.transform.localScale = v0;
@@ -122,7 +122,7 @@ public class Global : MonoBehaviour {
 		//1
 		GameObject substPointSelected = GameObject.Find ("hammer" + boxupName);
 
-		int iconVisible = (int)Random.Range (0.4f, 1.4f);
+		int iconVisible = (int)Random.Range (0.4f, 2.4f);
 
 		while (counter < 13.5f) {
 			boxup.gameObject.transform.transform.Rotate (Vector3.up * counter);
@@ -130,7 +130,7 @@ public class Global : MonoBehaviour {
 			counter = counter + 1f;
 		}
 
-		if (iconVisible == 0) {
+		if (iconVisible != 0) {
 			showButton (addPointSelected, substPointSelected);
 			addPointSelected.SendMessage ("updateValue", 15);
 		} else {
@@ -140,7 +140,7 @@ public class Global : MonoBehaviour {
 
 		yield return  new WaitForSeconds (waitBetweenBoxes);
 
-		if (iconVisible == 0) {
+		if (iconVisible != 0) {
 			hideButton (addPointSelected);
 		} else {
 			hideButton (substPointSelected);
@@ -169,13 +169,14 @@ public class Global : MonoBehaviour {
 	}
 
 	void changeLevel() {
-		//Reset time
-		time = initialTime;
 		rotatingTime = rotatingTime / 100;
 		//Calculate next goal;
 		goal = (int) (goal + goal*0.5);
 		goalLabel.text = "Goal: " + goal;
 
+		//Reset time
+		initialTime = (int) ((goal / 15) * 0.25) + 10;
+		time = initialTime;
 		waitBetweenBoxes = waitBetweenBoxes - 0.02f;
 
 		//uplevel
