@@ -17,6 +17,7 @@ public class Global : MonoBehaviour {
 	private static float rotatingTime = 0.000000005f;
 	private static float waitBetweenBoxes = 0.5f;
 	private static bool blocked = false;
+	private static int showAd = 0;
 
 	private static UnityEngine.UI.Text timeLabel;
 	private static UnityEngine.UI.Text goalLabel;
@@ -77,6 +78,9 @@ public class Global : MonoBehaviour {
 		if (blocked == false) {
 			if (time == 0 && score < goal) {
 				//GameOver
+				if (showAd == 0) {
+					ShowRewardedAd ();
+				}
 				showGameOverObjects ();
 			}
 
@@ -107,7 +111,7 @@ public class Global : MonoBehaviour {
 		Vector3 newPosition = new Vector3(2.0f, 2.0f, 2.0f);
 		gameOver.transform.localScale = newPosition;
 		restart.transform.localScale = newPosition;
-		ShowRewardedAd ();
+		showAd = 1;
 	}
 
 	IEnumerator takeRandomBox()
@@ -193,6 +197,7 @@ public class Global : MonoBehaviour {
 	protected void Awake(){
 		time = initialTime;
 		boxTaken = false;
+		showAd = 0;
 	}
 
 	void showButton(GameObject shownButton, GameObject unshownButton) {
@@ -222,14 +227,15 @@ public class Global : MonoBehaviour {
 		switch (result)
 		{
 		case ShowResult.Finished:
-			Debug.Log("The ad was successfully shown.");
-			
+			Debug.Log ("The ad was successfully shown.");
+			showAd = 2;
 			break;
 		case ShowResult.Skipped:
 			Debug.Log("The ad was skipped before reaching the end.");
 			break;
 		case ShowResult.Failed:
-			Debug.LogError("The ad failed to be shown.");
+			Debug.LogError ("The ad failed to be shown.");
+			showAd = 2;
 			break;
 		}
 	}
