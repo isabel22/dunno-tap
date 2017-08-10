@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Advertisements;
 
 public class Global : MonoBehaviour {
 
@@ -106,6 +107,7 @@ public class Global : MonoBehaviour {
 		Vector3 newPosition = new Vector3(2.0f, 2.0f, 2.0f);
 		gameOver.transform.localScale = newPosition;
 		restart.transform.localScale = newPosition;
+		ShowRewardedAd ();
 	}
 
 	IEnumerator takeRandomBox()
@@ -206,5 +208,29 @@ public class Global : MonoBehaviour {
 		shownButton.transform.localScale = v0;
 		shownButton.gameObject.GetComponent<Button> ().interactable = false;
 		shownButton.SendMessage ("resetValue");
+	}
+
+	public void ShowRewardedAd() {
+		if (Advertisement.IsReady("rewardedVideo"))
+		{
+			var options = new ShowOptions { resultCallback = HandleShowResult };
+			Advertisement.Show("rewardedVideo", options);
+		}
+	}
+
+	private void HandleShowResult(ShowResult result) {
+		switch (result)
+		{
+		case ShowResult.Finished:
+			Debug.Log("The ad was successfully shown.");
+			
+			break;
+		case ShowResult.Skipped:
+			Debug.Log("The ad was skipped before reaching the end.");
+			break;
+		case ShowResult.Failed:
+			Debug.LogError("The ad failed to be shown.");
+			break;
+		}
 	}
 }
