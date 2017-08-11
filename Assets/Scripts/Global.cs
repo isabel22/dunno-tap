@@ -32,7 +32,6 @@ public class Global : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		Screen.orientation = ScreenOrientation.LandscapeLeft;
 		timeLabel = GameObject.Find("Time").GetComponent<Text>();
 		goalLabel = GameObject.Find("Goal").GetComponent<Text>();
 		levelLabel = GameObject.Find("Level").GetComponent<Text>();
@@ -219,10 +218,10 @@ public class Global : MonoBehaviour {
 	}
 
 	public void ShowRewardedAd() {
-		if (Advertisement.IsReady("rewardedVideo"))
+		if (Advertisement.IsReady("video"))
 		{
 			var options = new ShowOptions { resultCallback = HandleShowResult };
-			Advertisement.Show("rewardedVideo", options);
+			Advertisement.Show("video", options);
 		}
 	}
 
