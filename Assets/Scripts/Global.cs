@@ -32,7 +32,7 @@ public class Global : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		Screen.orientation = ScreenOrientation.LandscapeRight;
+		Screen.orientation = ScreenOrientation.LandscapeLeft;
 		timeLabel = GameObject.Find("Time").GetComponent<Text>();
 		goalLabel = GameObject.Find("Goal").GetComponent<Text>();
 		levelLabel = GameObject.Find("Level").GetComponent<Text>();
@@ -56,21 +56,24 @@ public class Global : MonoBehaviour {
 
 	IEnumerator change321Go() {
 		label321.transform.localScale = new Vector3 (1.0f, 1.0f, 1.0f);
-		int time = int.Parse(label321.text);
-		int init = time;
-		while (time > -1) {
-			time = init - (int)Time.timeSinceLevelLoad;
-			if (time > 0) {
-				label321.text = time.ToString ();
-				yield return  new WaitForSeconds (1);
+		int localtime = 4;
+		int countdown = 3;
+		int init = countdown;
+		while (localtime > 0) {
+			countdown = init - (int)Time.timeSinceLevelLoad;
+			if (countdown > 0) {
+				label321.text = countdown.ToString ();
+				yield return new WaitForSeconds (1);
 			} else {
 				label321.text = "Go";
 				label321.transform.localScale = new Vector3 (1.0f, 1.0f, 1.0f);
-				blocked = false;
-				yield return  new WaitForSeconds (0.0005f);
+				yield return new WaitForSeconds (0.5f);
+				label321.transform.localScale = v0;
 			}
+			localtime--;
 		}
-		label321.transform.localScale = v0;
+		time = 10;
+		blocked = false;
 	}
 
 	// Update is called once per frame
@@ -85,7 +88,7 @@ public class Global : MonoBehaviour {
 			}
 
 			scoreLabel.text = "Score: " + score.ToString ();
-			if (!boxTaken && time > 0) {
+			if (!boxTaken && time > 1) {
 				StartCoroutine (takeRandomBox ());
 			}
 			if (time > 0) {
