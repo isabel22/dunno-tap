@@ -11,7 +11,9 @@ public class Character : MonoBehaviour {
 	// Use this for initialization
 	public void Start () {
 		scoreLabel = GameObject.Find("Score").GetComponent<Text>();
-		this.GetComponent<Button> ().interactable = false;
+		if (this.GetType ().Equals( "Button")) {
+			this.GetComponent<Button> ().interactable = false;
+		}
 		this.resetValue ();
 	}
 
